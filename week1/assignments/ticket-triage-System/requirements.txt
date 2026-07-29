@@ -1,0 +1,5 @@
+openai>=1.50.0
+pydantic>=2.5
+pandas>=2.0
+# Optional (only for the interactive UI cell in the notebook):
+gradio>=4.0
