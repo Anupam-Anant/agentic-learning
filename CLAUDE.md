@@ -1,7 +1,8 @@
-# CLAUDE.md — GenAI Program Mentor (auto-loaded every session)
+# CLAUDE.md
 
-> This file is read automatically by Claude Code at the start of every session in this directory.
-> It defines the tutor role and the working conventions for a 7-week Generative AI program.
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+> **GenAI Program Mentor** — auto-loaded every session. It defines the tutor role and the working conventions for a 7-week Generative AI program.
 
 ---
 
@@ -62,7 +63,7 @@ L1/
 
 **Conventions:**
 - Study guides are **self-contained** and numbered per week: `study-guide-01-...`, `study-guide-02-...`.
-- The glossary at `weekN/revision/glossary.md` is **cumulative** — append new terms each reading with a source tag (e.g. `W2·SG01`).
+- There is **one cumulative glossary** for the whole course at `week1/revision/glossary.md` (~187 terms) — append new terms each reading with a source tag (e.g. `W2·SG01`). Do **not** create a separate per-week glossary; keep the single file.
 - Keep the top-level `README.md` week-status table and per-week file list up to date.
 - Provider note: the course uses **OpenAI** APIs (Responses API + Structured Outputs) with optional Groq/Gemini via OpenAI-compatible endpoints.
 
@@ -70,12 +71,13 @@ L1/
 
 ## 🛠️ Developer reference — commands & code architecture
 
-> Facts for actually running and extending the code in this repo (currently all under `week1/`). This is a learning workspace, not a packaged app: there is **no build step, no linter config, and no test suite** — the "code" is standalone scripts + one Colab notebook.
+> Facts for actually running and extending the code in this repo (Week 1 + Week 2 so far). This is a learning workspace, not a packaged app: there is **no build step, no linter config, and no test suite** — the "code" is standalone scripts + Colab notebooks. The repo is **git-tracked** (remote `origin` → `git@github.com:Anupam-Anant/agentic-learning.git`); `.gitignore` keeps `.DS_Store`, `.idea/`, Python caches, and any `.env`/`*.key` out of commits.
 
 ### Environment setup
-- **No `.env` / `.env.example` file exists.** Auth is via environment variable: `export OPENAI_API_KEY=...` locally, or Colab Secrets in the notebook.
+- **No `.env` / `.env.example` file exists.** For API-based examples, auth is via environment variable: `export OPENAI_API_KEY=...` locally, or Colab Secrets in the notebook.
 - Week 1 examples need: `pip install openai pydantic`.
 - Assignment needs its own file: `pip install -r week1/assignments/project1-ticket-triage/requirements.txt` (`openai>=1.50.0`, `pydantic>=2.5`, `pandas>=2.0`, optional `gradio>=4.0` for the notebook UI cell).
+- Week 2: `prompt_engineering_demo.py` needs `pip install openai` + an API key; `bert_tasks_demo.py` needs `pip install transformers torch` and **no API key** (runs a model locally).
 
 ### Running the Week 1 API examples (`week1/code/`)
 ```bash
@@ -92,8 +94,17 @@ python triage.py "my card was double charged"   # triage a single ad-hoc message
 ```
 - Notebook path: open `ticket_triage.ipynb` in Colab → add keys in Colab Secrets → **Run all**. `triage.py` mirrors the notebook's logic for local runs.
 
+### Running the Week 2 examples (`week2/code/`)
+```bash
+python week2/code/prompt_engineering_demo.py   # 4 prompt techniques — LIVE OpenAI Chat Completions calls
+python week2/code/bert_tasks_demo.py           # BERT sentiment/NER/QA — runs LOCALLY, no API key
+```
+- **These two files deliberately break the Week 1 mold — preserve the difference, don't "fix" it to match Week 1:**
+  - `prompt_engineering_demo.py` uses the **Chat Completions API** (`client.chat.completions.create`, `gpt-4o-mini`), *not* the Responses API — to stay faithful to the Week 2 PDF. Runs at default temperature, so output varies run-to-run.
+  - `bert_tasks_demo.py` runs an **open-source model locally** via Hugging Face `transformers`/PyTorch (`pipeline("sentiment-analysis")`, etc.). First run downloads weights to `~/.cache/huggingface`; uses CPU by default (the PDF's `device="cuda"` is dropped so it runs on a Mac — on Apple Silicon `device="mps"` is optional).
+
 ### Code architecture (the parts that span multiple files)
-- **Everything uses the OpenAI *Responses API*, not Chat Completions.** Multi-turn conversation is threaded with `previous_response_id` (server keeps the session state) instead of resending the full message history each call.
+- **Week 1 uses the OpenAI *Responses API*, not Chat Completions.** Multi-turn conversation is threaded with `previous_response_id` (server keeps the session state) instead of resending the full message history each call. (Week 2 intentionally diverges — Chat Completions in one demo, local Hugging Face models in another; see above.)
 - **Structured output = Pydantic model → guaranteed valid JSON.** The model returns data that already validates against the schema; no hand-parsing of free text.
 - **Triage pattern = one LLM call + a deterministic Python safety net.** Flow: single structured call (Responses API + Pydantic `TicketTriageOutput`) → `enforce_routing()` (fixed category→department map) → `apply_safety_net()` (force human escalation on urgent/high priority, complaints, low confidence, or refund/legal/GDPR/security keywords). **The LLM does judgment; Python enforces the business rules** so routing/escalation can't drift. Runs at `temperature=0` for repeatable classification.
 - **Provider-swappable via env var.** The same OpenAI-compatible code targets OpenAI (`gpt-4.1-mini`, native Structured Outputs), Groq (`llama-3.3-70b-versatile`), or Gemini (`gemini-2.5-flash`) by changing base URL/model in the environment — no code change.
@@ -106,9 +117,10 @@ Per the conventions above: save it under `weekN/code/` with a matching `code/REA
 ## ✅ Progress
 - **Week 1 — Building LLMs using Playgrounds: COMPLETE.**
   - Study guides 01–04 (Transformers→LLMs, Intro to GenAI, OpenAI API Usage, Choosing a Model).
-  - Assignment done: `week1/assignments/project1-ticket-triage/` (AI Support Ticket Triage System).
-  - Glossary ~90 terms (`week1/revision/glossary.md`).
-- **Week 2 — starting now.** The `week2/` folder + standard subfolders (`notes/ code/ assignments/ revision/`) already exist but are **empty**; fill them as the first Week 2 material arrives.
+  - Assignment done: `week1/assignments/project1-ticket-triage/` (AI Support Ticket Triage System). Note: `week1/assignments/ticket-triage-System/` + `ticket-triage-System.zip` is an older duplicate of the same project — `project1-ticket-triage/` is the canonical copy.
+- **Week 2 — IN PROGRESS.** Study guides 01–05 (Open vs Closed models · Basic Prompt Engineering · Vector Embeddings · BERT for simple tasks · HF AutoModel vs pipeline) + 2 code demos (`prompt_engineering_demo.py`, `bert_tasks_demo.py`). No Week 2 assignment yet.
+- **Cumulative glossary ~187 terms** at `week1/revision/glossary.md`.
+- **Weeks 3–7 — not started.**
 
 ## 🎨 Output style
 Structured Markdown: headings, bullets, tables, text diagrams, comparison tables, code blocks, and summary boxes. Prioritize understanding over speed; when the student struggles, explain the same idea multiple ways.
