@@ -194,3 +194,25 @@
 | **Random seed (manual_seed)** | Fixes the pseudo-random generator so stochastic output is reproducible. | W2·SG05 |
 | **safetensors** | Modern, safe weight-file format (no arbitrary code execution on load). | W2·SG05 |
 | **Phi-3** | Microsoft's family of small, instruction-tuned open LLMs (notebook uses `Phi-3-mini-4k-instruct`). | W2·SG05 |
+
+## Week 3
+
+| Term | Definition | First seen |
+|---|---|---|
+| **RAG (Retrieval Augmented Generation)** | Pattern that retrieves relevant documents and adds them to the prompt so an LLM answers from supplied facts, not just memory. Retrieve → Augment → Generate. | W3·SG01 |
+| **Retriever / Retrieval system** | The component that searches the knowledge base and returns the most relevant chunks (embeddings + vector-DB search under the hood). "The librarian." | W3·SG01 |
+| **Generator / Generative model** | The LLM that reads the retrieved chunks + question and writes the final natural-language answer. "The writer." | W3·SG01 |
+| **Knowledge base** | The external collection of documents RAG draws from; lives outside the model and can be updated freely without retraining. | W3·SG01 |
+| **Inference** | Running a trained model to get an answer (vs training it); "at inference" = at question time, live. | W3·SG01 |
+| **Grounding** | Tying the model's answer to specific provided source text, so claims are backed by evidence rather than invented. RAG is the main grounding technique. | W3·SG01 |
+| **Hallucination** | An LLM confidently stating false information; happens when it lacks a fact and fills the gap with plausible-sounding text. | W3·SG01 |
+| **Context (retrieved)** | The retrieved text injected into the prompt for the generator to read. | W3·SG01 |
+| **Context window** | The max text (in tokens) a model can consider at once — prompt + context + answer combined; a hard size cap. | W3·SG01 |
+| **top-K** | Retrieve the K best-matching chunks (K = a small chosen number); like `LIMIT K` on a similarity-ordered query. | W3·SG01 |
+| **Chunk / Chunking** | Splitting documents into smaller passages before embedding, so retrieval returns focused snippets. | W3·SG01 |
+| **Chunk overlap** | Letting consecutive chunks share some text so ideas spanning a boundary aren't lost. | W3·SG01 |
+| **Indexing (index time)** | The offline, one-time prep: chunk → embed → store vectors in the DB, enabling query-time retrieval. | W3·SG01 |
+| **FAISS** | Facebook AI Similarity Search — a fast in-process library for nearest-neighbor search over vectors. | W3·SG01 |
+| **ChromaDB (Chroma)** | A developer-friendly open-source vector database, popular for RAG prototypes. | W3·SG01 |
+| **Re-ranking** | (Advanced RAG) A second, sharper model reorders the initially retrieved top-K for better precision. | W3·SG01 |
+| **Hybrid search** | (Advanced RAG) Combining semantic (embedding) search with keyword search (e.g. BM25). | W3·SG01 |

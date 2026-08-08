@@ -21,7 +21,7 @@ L1/
 |------|-------|--------|
 | 1 | Building LLMs using Playgrounds | 🟢 Complete — 4 study guides + assignment (Ticket Triage System) |
 | 2 | Open/Closed Models · Prompt Engineering · Embeddings · BERT · Hugging Face | 🟡 In progress — study guides 01–05 + 2 code demos |
-| 3 | _TBD_ | ⚪ Not started |
+| 3 | Retrieval Augmented Generation (RAG) | 🟡 In progress — study guide 01 (RAG intro) |
 | 4 | _TBD_ | ⚪ Not started |
 | 5 | _TBD_ | ⚪ Not started |
 | 6 | _TBD_ | ⚪ Not started |
@@ -34,7 +34,7 @@ L1/
 - **`notes/study-guide-04-choosing-a-genai-model.md`** ⭐ Reading 04 — model types, 9 selection criteria, benchmarks, decision framework. Self-contained.
 - `notes/01-evolution-of-transformers-to-llms.md` — companion teaching breakdown for Reading 01 + **knowledge-check quiz**.
 - `code/` — runnable OpenAI API examples (client + basic/multi-turn, structured output, streaming).
-- `revision/glossary.md` — running glossary across all weeks (~187 terms so far).
+- `revision/glossary.md` — running glossary across all weeks (~200 terms so far).
 - **`assignments/project1-ticket-triage/`** ⭐ **Week 1 assignment** — AI Support Ticket Triage System (Colab notebook + CLI + dataset + README).
 
 ### Week 2 files
@@ -45,6 +45,9 @@ L1/
 - `code/prompt_engineering_demo.py` — runnable demo of all 4 prompt techniques (Chat Completions API); see `code/README.md`.
 - `code/bert_tasks_demo.py` — runnable demo of BERT for 3 NLP tasks, run locally via Hugging Face `transformers` (no API key); see `code/README.md`.
 - **`notes/study-guide-05-huggingface-automodel-vs-pipeline.md`** ⭐ Reading 05 (notebook `HuggingFace_Pipeline.ipynb`) — the two ways to run a HF model: low-level `AutoModel`+`AutoTokenizer` (manual tokenize→generate→decode with Phi-3, a causal/autoregressive decoder) vs high-level `pipeline` (DistilBERT sentiment); chat templates, tensors, greedy-vs-sampling, and the `Auto*` factory pattern. Self-contained + line-by-line + knowledge check.
+
+### Week 3 files
+- **`notes/study-guide-01-retrieval-augmented-generation.md`** ⭐ Reading 01 — Retrieval Augmented Generation: the Retrieve → Augment → Generate pattern; retriever (embeddings + vector DB, "librarian") vs generator (LLM, "writer"); why bare LLMs go stale & hallucinate; RAG vs fine-tuning (knowledge-in-DB vs knowledge-in-weights); the 4-step query flow + hidden indexing step; chunking, context window, top-K, FAISS/ChromaDB. Self-contained + knowledge check.
 
 ## How the notes are built
 
