@@ -216,3 +216,24 @@
 | **ChromaDB (Chroma)** | A developer-friendly open-source vector database, popular for RAG prototypes. | W3·SG01 |
 | **Re-ranking** | (Advanced RAG) A second, sharper model reorders the initially retrieved top-K for better precision. | W3·SG01 |
 | **Hybrid search** | (Advanced RAG) Combining semantic (embedding) search with keyword search (e.g. BM25). | W3·SG01 |
+| **Unstructured data** | Data with no fixed table schema — free text, images, audio, video. | W3·SG02 |
+| **BLOB (Binary Large Object)** | A DB column holding a whole file's raw bytes (image/PDF/audio); the DB can store it but can't search by its *content*, only by structured labels — the limitation vector DBs undo. (💻 Java `byte[]`.) | W3·SG02 |
+| **High-dimensional vector** | A vector with hundreds/thousands of numbers (e.g. 1,536-dim); one point in that many-D space. | W3·SG02 |
+| **Distance metric / similarity metric** | The formula scoring how alike two vectors are; results are ranked by it. | W3·SG02 |
+| **Euclidean distance (L2)** | Straight-line distance between two points, `√Σ(aᵢ−bᵢ)²`; smaller = more similar. | W3·SG02 |
+| **Dot product** | Similarity combining direction and magnitude (rewards longer vectors); used when vectors aren't normalized. | W3·SG02 |
+| **Normalized vector** | A vector scaled to length 1; makes cosine and Euclidean rank results identically. | W3·SG02 |
+| **Exact / brute-force k-NN** | Compare the query to all N vectors for the true K closest — accurate but O(N), too slow at scale. | W3·SG02 |
+| **Approximate Nearest Neighbor (ANN)** | Index that returns probably-closest vectors while checking a tiny fraction of data — trades a little accuracy for huge speed. | W3·SG02 |
+| **Recall (ANN)** | Fraction of the true nearest neighbors the approximate search returned; the accuracy⇄speed knob. | W3·SG02 |
+| **HNSW (Hierarchical Navigable Small World)** | The dominant ANN index: a layered proximity graph ("skip-list for geometry") giving ~O(log N) search. | W3·SG02 |
+| **IVF (Inverted File Index)** | ANN approach that clusters vectors and searches only the nearest clusters. | W3·SG02 |
+| **Curse of dimensionality** | In high-D space points become near-equidistant and space-partitioning trees fail — the reason ANN graphs are needed. | W3·SG02 |
+| **Upsert** | Insert-or-update in one operation; the standard vector-DB write. | W3·SG02 |
+| **SBERT (Sentence-BERT)** | BERT variant fine-tuned to produce one strong embedding per sentence/passage; a go-to text embedder for retrieval. | W3·SG02 |
+| **Metadata filtering** | Narrowing similarity results by structured attributes (tenant, date, source) — a `WHERE` clause on nearest-neighbor search. | W3·SG02 |
+| **Post-processing (vector DB)** | Refining raw hits: filtering, re-ranking, dedup, formatting. | W3·SG02 |
+| **Data ingestion** | The pipeline of generating embeddings and loading them (with metadata) into the DB. | W3·SG02 |
+| **Qdrant** | Open-source, production-grade vector database (self-hosted server). | W3·SG02 |
+| **Managed vs self-hosted vs embedded** | Deployment axis: Pinecone (managed cloud) · Qdrant/Chroma-server (self-hosted) · FAISS/SQLite-like (embedded library). | W3·SG02 |
+| **BM25** | Classic keyword-ranking algorithm; the "lexical" half of hybrid search. | W3·SG02 |

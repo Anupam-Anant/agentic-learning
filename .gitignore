@@ -18,3 +18,7 @@ env/
 .env
 .env.*
 *.key
+
+# Local vector-DB artifacts (Week 3 ChromaDB demo)
+chroma_db_demo/
+**/chroma_db_demo/
