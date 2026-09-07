@@ -21,7 +21,7 @@ L1/
 |------|-------|--------|
 | 1 | Building LLMs using Playgrounds | 🟢 Complete — 4 study guides + assignment (Ticket Triage System) |
 | 2 | Open/Closed Models · Prompt Engineering · Embeddings · BERT · Hugging Face | 🟡 In progress — study guides 01–05 + 2 code demos |
-| 3 | RAG · Vector Databases | 🟡 In progress — study guides 01–02 (RAG intro · vector databases) |
+| 3 | RAG · Vector Databases · LangChain | 🟡 In progress — study guides 01–03 (RAG · vector DBs · LangChain) + 4 code demos |
 | 4 | _TBD_ | ⚪ Not started |
 | 5 | _TBD_ | ⚪ Not started |
 | 6 | _TBD_ | ⚪ Not started |
@@ -34,7 +34,7 @@ L1/
 - **`notes/study-guide-04-choosing-a-genai-model.md`** ⭐ Reading 04 — model types, 9 selection criteria, benchmarks, decision framework. Self-contained.
 - `notes/01-evolution-of-transformers-to-llms.md` — companion teaching breakdown for Reading 01 + **knowledge-check quiz**.
 - `code/` — runnable OpenAI API examples (client + basic/multi-turn, structured output, streaming).
-- `revision/glossary.md` — running glossary across all weeks (~220 terms so far).
+- `revision/glossary.md` — running glossary across all weeks (~253 terms so far).
 - **`assignments/project1-ticket-triage/`** ⭐ **Week 1 assignment** — AI Support Ticket Triage System (Colab notebook + CLI + dataset + README).
 
 ### Week 2 files
@@ -50,6 +50,9 @@ L1/
 - **`notes/study-guide-01-retrieval-augmented-generation.md`** ⭐ Reading 01 — Retrieval Augmented Generation: the Retrieve → Augment → Generate pattern; retriever (embeddings + vector DB, "librarian") vs generator (LLM, "writer"); why bare LLMs go stale & hallucinate; RAG vs fine-tuning (knowledge-in-DB vs knowledge-in-weights); the 4-step query flow + hidden indexing step; chunking, context window, top-K, FAISS/ChromaDB. Self-contained + knowledge check.
 - **`notes/study-guide-02-introduction-to-vector-databases.md`** ⭐ Reading 02 — Vector databases (the engine behind RAG's retriever): why B-tree DBs can't do similarity search ("Elasticsearch for meaning"); the 4 components; distance metrics (cosine vs Euclidean vs dot product); ANN & the accuracy/speed trade-off with HNSW ("skip-list for geometry"); tools by deployment model (FAISS/Chroma/Qdrant/Pinecone/pgvector); the ingest→index→query→post-process lifecycle; the ChromaDB sample-code walkthrough + hybrid search. Self-contained + knowledge check.
 - `code/chromadb_tutorial_demo.py` — runnable ChromaDB tour (the SG02 PDF's "sample code"): SBERT embeddings + cosine similarity, add/query (semantic search), persistence, distance-metric choice, metadata filtering, full CRUD. Runs **locally, no API key**; see `code/README.md`.
+- **`notes/study-guide-03-langchain-framework.md`** ⭐ Reading 03 — LangChain, the framework that assembles W1–W3 into a real app ("Spring for LLM apps"): the problem it solves; chains/integration/extensibility; the memory/data-augmentation/tool superpowers; core concepts (Chains · Models · Prompts · Memory); **LCEL** and the pipe `|`; other frameworks (LlamaIndex/CrewAI/FlowiseAI/LangGraph); and how a RAG app is a ~5-line LCEL chain. Self-contained + knowledge check.
+- **`notes/study-guide-03b-langchain-notebooks-walkthrough.md`** — cell-by-cell walkthrough of the three original LangChain notebooks (`Setup_and_Simple_Chain` · `Chains` · `LCEL`): every meaningful line explained, incl. quantization/4-bit, tokenizer padding, the base-model repetition bug, and the LCEL fan-out/fan-in. Companion to SG03.
+- `code/langchain_*_demo.py` (+ shared `langchain_model.py`) — the 3 LangChain companion notebooks made runnable: **simple chain** (deprecated `LLMChain` vs modern LCEL), **sequential chain** (topic→outline→expand), and **LCEL fan-out/fan-in** (two models answer, a third merges). Provider-swappable (Cohere/OpenAI); see `code/README.md`.
 
 ## How the notes are built
 

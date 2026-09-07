@@ -237,3 +237,35 @@
 | **Qdrant** | Open-source, production-grade vector database (self-hosted server). | W3·SG02 |
 | **Managed vs self-hosted vs embedded** | Deployment axis: Pinecone (managed cloud) · Qdrant/Chroma-server (self-hosted) · FAISS/SQLite-like (embedded library). | W3·SG02 |
 | **BM25** | Classic keyword-ranking algorithm; the "lexical" half of hybrid search. | W3·SG02 |
+| **LangChain** | A framework for building applications around LLMs — the orchestration layer wiring models, prompts, data, memory, and tools. ("Spring for LLM apps.") | W3·SG03 |
+| **Framework (vs library)** | A scaffold that calls *your* code within its conventions (inversion of control); you compose within it. | W3·SG03 |
+| **Orchestration** | Coordinating multiple steps/components into one flow. | W3·SG03 |
+| **Chain (LangChain)** | A composable pipeline of steps (prompt → model → parse → …) treated as one callable; the fundamental building block. | W3·SG03 |
+| **LCEL (LangChain Expression Language)** | The `\|`-based declarative syntax for composing chains from Runnables. | W3·SG03 |
+| **Runnable** | LangChain's universal "callable" interface; every component implements it, sharing `.invoke()/.batch()/.stream()` + async. | W3·SG03 |
+| **Pipe operator `\|` (LCEL)** | Composes two Runnables left-to-right (left's output → right's input); function composition (≈ Java `Function.andThen()`). | W3·SG03 |
+| **RunnablePassthrough** | An LCEL Runnable that forwards its input unchanged; `.assign()` adds computed keys while keeping existing ones. | W3·SG03 |
+| **Chat model (vs LLM text model)** | LangChain model type taking role-tagged messages → a message (modern default); an *LLM* is string→string. | W3·SG03 |
+| **PromptTemplate** | A reusable prompt with typed `{variables}` filled at runtime (≈ a `PreparedStatement` / `MessageFormat`). | W3·SG03 |
+| **Output parser** | A component that turns the model's raw text into a clean structure (string, JSON, object); e.g. `StrOutputParser`. | W3·SG03 |
+| **Memory (LangChain)** | A component that persists info across interactions and injects it into later prompts (≈ `HttpSession` for a bot). | W3·SG03 |
+| **Data augmentation** | Enriching the model's input with retrieved external data — i.e. RAG. | W3·SG03 |
+| **Tool (LangChain)** | A function the LLM can invoke (search, calculator, API, DB) to fetch facts or act; the basis of agents. | W3·SG03 |
+| **Agent** | A model that chooses and runs tools in a loop to accomplish a goal (upcoming topic). | W3·SG03 |
+| **VectorStore / Retriever (LangChain)** | Wrapper over a vector DB (SG02) exposing `.as_retriever()` → a Runnable returning relevant chunks. | W3·SG03 |
+| **Document loader** | Reads source data (PDF/HTML/CSV/…) into standard `Document` objects for a RAG pipeline. | W3·SG03 |
+| **Text splitter** | Chunks documents (size + overlap) before embedding (SG01 chunking, as a component). | W3·SG03 |
+| **HuggingFacePipeline** | LangChain wrapper that runs a *local* Hugging Face model as a chain's LLM (vs an API model). | W3·SG03 |
+| **Quantization (4-bit / NF4)** | Compressing model weights to lower precision (e.g. 4-bit `nf4` via bitsandbytes) so a big model fits/loads on limited GPU memory. | W3·SG03 |
+| **LlamaIndex** | A framework specialized in RAG / data indexing and retrieval. | W3·SG03 |
+| **CrewAI** | A framework for multi-agent orchestration (role-playing agents collaborating). | W3·SG03 |
+| **FlowiseAI** | A low-code/visual (drag-and-drop) builder for LangChain-style flows. | W3·SG03 |
+| **LangGraph** | LangChain's framework for stateful, cyclic (loops/branches) agent workflows. | W3·SG03 |
+| **LangSmith** | LangChain's observability/eval platform — tracing/debugging chains (≈ APM for LLM apps). | W3·SG03 |
+| **LangServe** | Deploys a chain as a REST API in a few lines. | W3·SG03 |
+| **ChatPromptTemplate** | A prompt template that outputs role-tagged chat **messages** (vs `PromptTemplate`'s plain string); use with chat models. | W3·SG03b |
+| **StrOutputParser** | Output parser that extracts the plain string from a chat model's message object. | W3·SG03b |
+| **RunnableLambda** | Wraps an arbitrary Python function as a Runnable so it composes in an LCEL chain. | W3·SG03b |
+| **Fan-out / fan-in** | Run several branches from one input (a dict of Runnables, in parallel), then merge them into one step. | W3·SG03b |
+| **Gated model** | A Hugging Face Hub model requiring license acceptance / auth (an `HF_TOKEN`) before download. | W3·SG03b |
+| **pad_token / padding_side** | A filler token + which side to pad, so batched inputs share one length (Mistral reuses `eos_token` as pad). | W3·SG03b |
