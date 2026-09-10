@@ -21,7 +21,7 @@ L1/
 |------|-------|--------|
 | 1 | Building LLMs using Playgrounds | 🟢 Complete — 4 study guides + assignment (Ticket Triage System) |
 | 2 | Open/Closed Models · Prompt Engineering · Embeddings · BERT · Hugging Face | 🟡 In progress — study guides 01–05 + 2 code demos |
-| 3 | RAG · Vector Databases · LangChain | 🟡 In progress — study guides 01–03 (RAG · vector DBs · LangChain) + 4 code demos |
+| 3 | RAG · Vector Databases · LangChain | 🟡 In progress — study guides 01–03 (RAG · vector DBs · LangChain) + notebook walkthrough + 4 code demos |
 | 4 | _TBD_ | ⚪ Not started |
 | 5 | _TBD_ | ⚪ Not started |
 | 6 | _TBD_ | ⚪ Not started |

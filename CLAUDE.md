@@ -71,13 +71,14 @@ L1/
 
 ## 🛠️ Developer reference — commands & code architecture
 
-> Facts for actually running and extending the code in this repo (Week 1 + Week 2 so far). This is a learning workspace, not a packaged app: there is **no build step, no linter config, and no test suite** — the "code" is standalone scripts + Colab notebooks. The repo is **git-tracked** (remote `origin` → `git@github.com:Anupam-Anant/agentic-learning.git`); `.gitignore` keeps `.DS_Store`, `.idea/`, Python caches, and any `.env`/`*.key` out of commits.
+> Facts for actually running and extending the code in this repo (Weeks 1–3 so far). This is a learning workspace, not a packaged app: there is **no build step, no linter config, and no test suite** — the "code" is standalone scripts + Colab notebooks. The repo is **git-tracked** (remote `origin` → `git@github.com:Anupam-Anant/agentic-learning.git`); `.gitignore` keeps `.DS_Store`, `.idea/`, Python caches, any `.env`/`*.key`, and the Week 3 ChromaDB demo's local `chroma_db_demo/` out of commits.
 
 ### Environment setup
 - **No `.env` / `.env.example` file exists.** For API-based examples, auth is via environment variable: `export OPENAI_API_KEY=...` locally, or Colab Secrets in the notebook.
 - Week 1 examples need: `pip install openai pydantic`.
 - Assignment needs its own file: `pip install -r week1/assignments/project1-ticket-triage/requirements.txt` (`openai>=1.50.0`, `pydantic>=2.5`, `pandas>=2.0`, optional `gradio>=4.0` for the notebook UI cell).
 - Week 2: `prompt_engineering_demo.py` needs `pip install openai` + an API key; `bert_tasks_demo.py` needs `pip install transformers torch` and **no API key** (runs a model locally).
+- Week 3: `chromadb_tutorial_demo.py` needs `pip install "chromadb" "sentence-transformers>=3.0"` and **no API key** (fully local). The `langchain_*_demo.py` files need `pip install langchain langchain-core langchain-classic` **plus one provider** — either `langchain-cohere` + `COHERE_API_KEY` (free tier, faithful to the course notebooks) or `langchain-openai` + `OPENAI_API_KEY`.
 
 ### Running the Week 1 API examples (`week1/code/`)
 ```bash
@@ -103,11 +104,25 @@ python week2/code/bert_tasks_demo.py           # BERT sentiment/NER/QA — runs 
   - `prompt_engineering_demo.py` uses the **Chat Completions API** (`client.chat.completions.create`, `gpt-4o-mini`), *not* the Responses API — to stay faithful to the Week 2 PDF. Runs at default temperature, so output varies run-to-run.
   - `bert_tasks_demo.py` runs an **open-source model locally** via Hugging Face `transformers`/PyTorch (`pipeline("sentiment-analysis")`, etc.). First run downloads weights to `~/.cache/huggingface`; uses CPU by default (the PDF's `device="cuda"` is dropped so it runs on a Mac — on Apple Silicon `device="mps"` is optional).
 
+### Running the Week 3 examples (`week3/code/`)
+```bash
+python week3/code/chromadb_tutorial_demo.py            # ChromaDB tour — LOCAL, no API key
+python week3/code/langchain_simple_chain_demo.py       # deprecated LLMChain vs modern LCEL
+python week3/code/langchain_sequential_chain_demo.py   # a true 2-step sequential chain
+python week3/code/langchain_lcel_demo.py               # LCEL fan-out/fan-in (2 models + merge)
+```
+- **These are locally-runnable adaptations of the Week 3 Colab notebooks — preserve the faithful divergences noted in each file header, don't "fix" them:**
+  - `chromadb_tutorial_demo.py` = the SG02 PDF's "sample code," runs **fully local** (SBERT + Chroma default embedder). Writes a git-ignored `./chroma_db_demo` for the persistence demo and deletes it at the end.
+  - `langchain_model.py` is a **shared module, not an entry point** (like Week 1's `openai_client.py`): a provider-swappable `get_chat_model()` factory — Cohere if `COHERE_API_KEY` is set, else OpenAI. The three `langchain_*_demo.py` scripts import it.
+  - `langchain_simple_chain_demo.py` **keeps the deprecated `LLMChain` on purpose**, next to the LCEL equivalent, to show why LangChain moved to LCEL.
+  - `langchain_sequential_chain_demo.py` — the original notebook ran a **local Mistral-7B in 4-bit quantization on a CUDA GPU** (`HuggingFacePipeline` + bitsandbytes), not Mac-runnable, and its "Sequential Chain" heading sat over a single call whose base-model output looped; this file uses the swappable chat model and builds a **genuine 2-step** chain.
+
 ### Code architecture (the parts that span multiple files)
 - **Week 1 uses the OpenAI *Responses API*, not Chat Completions.** Multi-turn conversation is threaded with `previous_response_id` (server keeps the session state) instead of resending the full message history each call. (Week 2 intentionally diverges — Chat Completions in one demo, local Hugging Face models in another; see above.)
 - **Structured output = Pydantic model → guaranteed valid JSON.** The model returns data that already validates against the schema; no hand-parsing of free text.
 - **Triage pattern = one LLM call + a deterministic Python safety net.** Flow: single structured call (Responses API + Pydantic `TicketTriageOutput`) → `enforce_routing()` (fixed category→department map) → `apply_safety_net()` (force human escalation on urgent/high priority, complaints, low confidence, or refund/legal/GDPR/security keywords). **The LLM does judgment; Python enforces the business rules** so routing/escalation can't drift. Runs at `temperature=0` for repeatable classification.
 - **Provider-swappable via env var.** The same OpenAI-compatible code targets OpenAI (`gpt-4.1-mini`, native Structured Outputs), Groq (`llama-3.3-70b-versatile`), or Gemini (`gemini-2.5-flash`) by changing base URL/model in the environment — no code change.
+- **Week 3 is LangChain + ChromaDB, not the OpenAI SDK.** The LangChain demos build chains with **LCEL** (`prompt | model | StrOutputParser()`) and stay provider-agnostic via the shared `langchain_model.py` factory (Cohere/OpenAI). The ChromaDB demo is the standalone vector-DB tour (embed → collection → query → metadata filter → CRUD). Study guides SG01 (RAG) → SG02 (vector DBs) → SG03 (LangChain) build one arc: LangChain is how the RAG blueprint from SG01 and the vector store from SG02 actually get assembled into an app.
 
 ### Where new runnable code goes
 Per the conventions above: save it under `weekN/code/` with a matching `code/README.md` entry describing how to run it.
@@ -119,8 +134,9 @@ Per the conventions above: save it under `weekN/code/` with a matching `code/REA
   - Study guides 01–04 (Transformers→LLMs, Intro to GenAI, OpenAI API Usage, Choosing a Model).
   - Assignment done: `week1/assignments/project1-ticket-triage/` (AI Support Ticket Triage System). Note: `week1/assignments/ticket-triage-System/` + `ticket-triage-System.zip` is an older duplicate of the same project — `project1-ticket-triage/` is the canonical copy.
 - **Week 2 — IN PROGRESS.** Study guides 01–05 (Open vs Closed models · Basic Prompt Engineering · Vector Embeddings · BERT for simple tasks · HF AutoModel vs pipeline) + 2 code demos (`prompt_engineering_demo.py`, `bert_tasks_demo.py`). No Week 2 assignment yet.
-- **Cumulative glossary ~187 terms** at `week1/revision/glossary.md`.
-- **Weeks 3–7 — not started.**
+- **Week 3 — IN PROGRESS.** Study guides 01–03 + a code walkthrough companion: SG01 (Retrieval Augmented Generation) · SG02 (Introduction to Vector Databases) · SG03 (LangChain framework) · SG03b (cell-by-cell walkthrough of the three LangChain notebooks). Code demos in `week3/code/`: `chromadb_tutorial_demo.py` (local) + `langchain_{simple_chain,sequential_chain,lcel}_demo.py` and the shared `langchain_model.py`. No Week 3 assignment yet. Both knowledge checks (SG01, SG03) are still open/ungraded.
+- **Cumulative glossary ~253 terms** at `week1/revision/glossary.md` (source tags now run W1 → W3·SG03b).
+- **Weeks 4–7 — not started.**
 
 ## 🎨 Output style
 Structured Markdown: headings, bullets, tables, text diagrams, comparison tables, code blocks, and summary boxes. Prioritize understanding over speed; when the student struggles, explain the same idea multiple ways.
