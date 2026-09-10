@@ -21,7 +21,7 @@ L1/
 |------|-------|--------|
 | 1 | Building LLMs using Playgrounds | 🟢 Complete — 4 study guides + assignment (Ticket Triage System) |
 | 2 | Open/Closed Models · Prompt Engineering · Embeddings · BERT · Hugging Face | 🟡 In progress — study guides 01–05 + 2 code demos |
-| 3 | RAG · Vector Databases · LangChain | 🟡 In progress — study guides 01–03 (RAG · vector DBs · LangChain) + notebook walkthrough + 4 code demos |
+| 3 | RAG · Vector DBs · LangChain · Retrieval Optimization | 🟡 In progress — study guides 01–04 (RAG · vector DBs · LangChain · retrieval optimization) + notebook walkthrough + 4 code demos |
 | 4 | _TBD_ | ⚪ Not started |
 | 5 | _TBD_ | ⚪ Not started |
 | 6 | _TBD_ | ⚪ Not started |
@@ -34,7 +34,7 @@ L1/
 - **`notes/study-guide-04-choosing-a-genai-model.md`** ⭐ Reading 04 — model types, 9 selection criteria, benchmarks, decision framework. Self-contained.
 - `notes/01-evolution-of-transformers-to-llms.md` — companion teaching breakdown for Reading 01 + **knowledge-check quiz**.
 - `code/` — runnable OpenAI API examples (client + basic/multi-turn, structured output, streaming).
-- `revision/glossary.md` — running glossary across all weeks (~253 terms so far).
+- `revision/glossary.md` — running glossary across all weeks (~271 terms so far).
 - **`assignments/project1-ticket-triage/`** ⭐ **Week 1 assignment** — AI Support Ticket Triage System (Colab notebook + CLI + dataset + README).
 
 ### Week 2 files
@@ -52,6 +52,7 @@ L1/
 - `code/chromadb_tutorial_demo.py` — runnable ChromaDB tour (the SG02 PDF's "sample code"): SBERT embeddings + cosine similarity, add/query (semantic search), persistence, distance-metric choice, metadata filtering, full CRUD. Runs **locally, no API key**; see `code/README.md`.
 - **`notes/study-guide-03-langchain-framework.md`** ⭐ Reading 03 — LangChain, the framework that assembles W1–W3 into a real app ("Spring for LLM apps"): the problem it solves; chains/integration/extensibility; the memory/data-augmentation/tool superpowers; core concepts (Chains · Models · Prompts · Memory); **LCEL** and the pipe `|`; other frameworks (LlamaIndex/CrewAI/FlowiseAI/LangGraph); and how a RAG app is a ~5-line LCEL chain. Self-contained + knowledge check.
 - **`notes/study-guide-03b-langchain-notebooks-walkthrough.md`** — cell-by-cell walkthrough of the three original LangChain notebooks (`Setup_and_Simple_Chain` · `Chains` · `LCEL`): every meaningful line explained, incl. quantization/4-bit, tokenizer padding, the base-model repetition bug, and the LCEL fan-out/fan-in. Companion to SG03.
+- **`notes/study-guide-04-retrieval-optimization.md`** ⭐ Reading 04 — "Advanced RAG": optimizing the retrieve step across **pre / during / post** stages. Precision vs recall; pre-retrieval (sentence-window / small-to-big chunking, query expansion, query rewriting); during (hybrid search = BM25/TF-IDF lexical + semantic vectors, merged via RRF); post (reranking with cross-encoders / CTR signals); bi-encoder vs cross-encoder, HyDE, and the cost/ROI ladder. Self-contained + knowledge check.
 - `code/langchain_*_demo.py` (+ shared `langchain_model.py`) — the 3 LangChain companion notebooks made runnable: **simple chain** (deprecated `LLMChain` vs modern LCEL), **sequential chain** (topic→outline→expand), and **LCEL fan-out/fan-in** (two models answer, a third merges). Provider-swappable (Cohere/OpenAI); see `code/README.md`.
 
 ## How the notes are built

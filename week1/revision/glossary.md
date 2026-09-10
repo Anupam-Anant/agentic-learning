@@ -269,3 +269,21 @@
 | **Fan-out / fan-in** | Run several branches from one input (a dict of Runnables, in parallel), then merge them into one step. | W3·SG03b |
 | **Gated model** | A Hugging Face Hub model requiring license acceptance / auth (an `HF_TOKEN`) before download. | W3·SG03b |
 | **pad_token / padding_side** | A filler token + which side to pad, so batched inputs share one length (Mistral reuses `eos_token` as pad). | W3·SG03b |
+| **Information Retrieval (IR)** | Finding relevant items from a large collection in response to a query (search, RAG, recommendations). | W3·SG04 |
+| **Pre- / during- / post-retrieval optimization** | The three stages you can tune: refine the input · run the search well · refine the output. | W3·SG04 |
+| **Precision** | Of the results returned, the fraction that are relevant ("did I return junk?"). | W3·SG04 |
+| **Recall (IR)** | Of all relevant results that exist, the fraction returned ("did I miss anything?"). | W3·SG04 |
+| **Precision–recall trade-off** | Widening search raises recall but lowers precision, and vice versa; you balance them. | W3·SG04 |
+| **Sentence window / sliding window** | Splitting text into small (1–few sentence) units via a sliding window for sharp, focused matching. | W3·SG04 |
+| **Small-to-big / sentence-window / parent-document retrieval** | Match on a tiny unit but return a larger surrounding context to the LLM. | W3·SG04 |
+| **Query expansion** | Adding synonyms/related/broader terms to the query before searching → recall ↑. | W3·SG04 |
+| **Vocabulary mismatch** | Searcher and document use different words for the same idea ("laptop" vs "notebook"). | W3·SG04 |
+| **Knowledge graph** | A network of entities and their relationships; a source for related-term expansion. | W3·SG04 |
+| **Query rewriting** | Transforming the query into a cleaner, better-formed, standalone version (typos, order, intent, conversational context). | W3·SG04 |
+| **Lexical / keyword search** | Matching on literal words/tokens (no notion of meaning). | W3·SG04 |
+| **TF-IDF** | Classic lexical scoring: term frequency × inverse document frequency (frequent-here-but-rare-overall = important). | W3·SG04 |
+| **Bi-encoder** | Encodes query and doc separately → fast, indexable, less precise (first-pass retrieval). | W3·SG04 |
+| **Cross-encoder** | Encodes query + doc jointly → slow, unindexable, very precise (used for reranking). | W3·SG04 |
+| **Reciprocal Rank Fusion (RRF)** | Merges multiple ranked lists by summing `1/(k+rank)` per item — fuses lexical + semantic without comparing raw scores. | W3·SG04 |
+| **HyDE (Hypothetical Document Embeddings)** | Generate a fake ideal answer with an LLM, embed *that*, and search with it (LLM-era query expansion). | W3·SG04 |
+| **Click-through rate (CTR)** | Fraction of users who clicked a shown result; a signal for heuristic reranking. | W3·SG04 |
